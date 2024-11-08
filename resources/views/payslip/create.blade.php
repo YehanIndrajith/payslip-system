@@ -99,42 +99,63 @@
                                 </div>
                             </div>
 
-                            <!-- Deductions Section -->
-                            <h5 class="mt-4" style="color: darkblue;">Deductions</h5>
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <label>EPF</label>
-                                    <input type="number" class="form-control" name="epf" readonly>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Salary Advance</label>
-                                    <input type="number" class="form-control" name="salary_advance">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <label>Informed Absent Days</label>
-                                    <input type="number" class="form-control" name="informed_absent_days">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Uninformed Absent Days</label>
-                                    <input type="number" class="form-control" name="uninformed_absent_days">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <label>Late Attendance Days</label>
-                                    <input type="number" class="form-control" name="late_days">
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Half Day Leaves (Hours)</label>
-                                    <input type="number" class="form-control" name="half_day_leave_hours">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Other Deductions</label>
-                                <input type="number" class="form-control" name="other_deductions">
-                            </div>
+                              <!-- Deductions Section -->
+<h5 class="mt-4" style="color: darkblue;">Deductions</h5>
+<div class="form-row">
+    <div class="col-md-6">
+        <label>EPF</label>
+        <input type="number" class="form-control" name="epf" readonly>
+    </div>
+    <div class="col-md-6">
+        <label>Salary Advance</label>
+        <input type="number" class="form-control" name="salary_advance">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-6">
+        <label>Informed Absent Days</label>
+        <input type="number" class="form-control" name="informed_absent_days">
+    </div>
+    <div class="col-md-6">
+        <label>Informed Absent Days Count</label>
+        <input type="number" class="form-control" name="informed_absent_days_count">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-6">
+        <label>Uninformed Absent Days</label>
+        <input type="number" class="form-control" name="uninformed_absent_days">
+    </div>
+    <div class="col-md-6">
+        <label>Uninformed Absent Days Count</label>
+        <input type="number" class="form-control" name="uninformed_absent_days_count">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-6">
+        <label>Late Attendance Days</label>
+        <input type="number" class="form-control" name="late_days">
+    </div>
+    <div class="col-md-6">
+        <label>Late Attendance Days Count</label>
+        <input type="number" class="form-control" name="late_attendance_days_count">
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-md-6">
+        <label>Half Day Leaves (Hours)</label>
+        <input type="number" class="form-control" name="half_day_leave_hours">
+    </div>
+    <div class="col-md-6">
+        <label>Half Day Leaves Count</label>
+        <input type="number" class="form-control" name="half_day_leaves_count">
+    </div>
+</div>
+<div class="form-group">
+    <label>Other Deductions</label>
+    <input type="number" class="form-control" name="other_deductions">
+</div>
+
 
                             <!-- Summary Section -->
                             {{-- <h5 class="mt-4" style="color: darkblue;">Summary</h5>

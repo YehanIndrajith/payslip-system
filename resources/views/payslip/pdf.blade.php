@@ -55,6 +55,7 @@
         }
         .label { background-color: #e1e9f2; font-weight: bold; }
         .amount { font-weight: bold; background-color: #d1e0f0; }
+        .count-column { background-color: #d1e0f0; font-weight: bold; } /* Matching color for additional column */
 
         /* Section headers */
         .section-header {
@@ -119,14 +120,46 @@
     <!-- Deductions Section -->
     <div class="section-header">Deductions</div>
     <table class="deductions-table">
-        <tr><td class="label">EPF</td><td class="amount">{{ number_format($payslip->epf, 2) }}</td></tr>
-        <tr><td class="label">Informed Absent Days</td><td class="amount">{{ $payslip->informed_absent_days }}</td></tr>
-        <tr><td class="label">Uninformed Absent Days</td><td class="amount">{{ $payslip->uninformed_absent_days }}</td></tr>
-        <tr><td class="label">Late Attendance Days</td><td class="amount">{{ $payslip->late_attendance_days }}</td></tr>
-        <tr><td class="label">Half Day Leaves (Hours)</td><td class="amount">{{ $payslip->half_day_leaves }}</td></tr>
-        <tr><td class="label">Salary Advance</td><td class="amount">{{ number_format($payslip->salary_advance, 2) }}</td></tr>
-        <tr><td class="label">Other Deductions</td><td class="amount">{{ number_format($payslip->other_deductions, 2) }}</td></tr>
-        <tr class="highlighted"><td class="label">Total Deductions</td><td class="amount">{{ number_format($payslip->total_deductions, 2) }}</td></tr>
+        <tr>
+            <td class="label">EPF</td>
+            <td class="count-column">8%</td>
+            <td class="amount">{{ number_format($payslip->epf, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Informed Absent Days</td>
+            <td class="count-column">{{ $payslip->informed_absent_days_count }}</td>
+            <td class="amount">{{ number_format($payslip->informed_absent_days, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Uninformed Absent Days</td>
+            <td class="count-column">{{ $payslip->uninformed_absent_days_count }}</td>
+            <td class="amount">{{ number_format($payslip->uninformed_absent_days, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Late Attendance Days</td>
+            <td class="count-column">{{ $payslip->late_attendance_days_count }}</td>
+            <td class="amount">{{ number_format($payslip->late_attendance_days, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Half Day Leaves (Hours)</td>
+            <td class="count-column">{{ $payslip->half_day_leaves_count }}</td>
+            <td class="amount">{{ number_format($payslip->half_day_leaves, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Salary Advance</td>
+            <td class="count-column"></td>
+            <td class="amount">{{ number_format($payslip->salary_advance, 2) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Other Deductions</td>
+            <td class="count-column"></td>
+            <td class="amount">{{ number_format($payslip->other_deductions, 2) }}</td>
+        </tr>
+        <tr class="highlighted">
+            <td class="label">Total Deductions</td>
+            <td class="count-column"></td>
+            <td class="amount">{{ number_format($payslip->total_deductions, 2) }}</td>
+        </tr>
     </table>
 
     <!-- Summary Section -->

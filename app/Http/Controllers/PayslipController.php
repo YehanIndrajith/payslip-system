@@ -121,57 +121,63 @@ class PayslipController extends Controller
             'late_days' => 'nullable|numeric|min:0',
             'half_day_leave_hours' => 'nullable|numeric|min:0',
             'other_deductions' => 'nullable|numeric|min:0',
-           // 'pf_total' => 'nullable|numeric|min:0',
+            'informed_absent_days_count' => 'nullable|numeric|min:0',
+            'uninformed_absent_days_count' => 'nullable|numeric|min:0',
+            'late_attendance_days_count' => 'nullable|numeric|min:0',
+            'half_day_leaves_count' => 'nullable|numeric|min:0',
         ]);
-
+    
         // Extract the validated data
         $basicSalary = $validatedData['basic_salary'];
         $attendanceIncentive = $validatedData['attendance_incentive'] ?? 0;
         $otherIncentive = $validatedData['other_incentive'] ?? 0;
         $before835Incentive = $validatedData['before835Incentive'] ?? 0;
-        // Total for pf
-        $pfTotal = $basicSalary +  $attendanceIncentive +  $otherIncentive + $before835Incentive;
-
-        $otRate = 250; // Assuming 173 hours in a month
+        $pfTotal = $basicSalary + $attendanceIncentive + $otherIncentive + $before835Incentive;
+    
+        $otRate = 250;
         $normalOtHours = $validatedData['normal_ot_hours'] ?? 0;
         $doubleOtHours = $validatedData['double_ot_hours'] ?? 0;
-
-        // Calculations for OT  
+    
+        // OT Calculations
         $normalOtPay = $normalOtHours * $otRate;
         $doubleOtPay = $doubleOtHours * $otRate * 2;
-
-        // Total earnings calculation  -- this will be gross salary
-        $totalEarnings = $pfTotal  + $normalOtPay  + $doubleOtPay;
-
-        $epfRate = $validatedData['epf_rate'] ?? 8; // Default to 8%
-        $emp_epfRate = $validatedData['emp_epf_rate'] ?? 12; // Default to 12%
-        $etfRate = $validatedData['etf_rate'] ?? 3; // Default to 3%
-
+    
+        // Total earnings calculation (gross salary)
+        $totalEarnings = $pfTotal + $normalOtPay + $doubleOtPay;
+    
+        $epfRate = $validatedData['epf_rate'] ?? 8;
+        $emp_epfRate = $validatedData['emp_epf_rate'] ?? 12;
+        $etfRate = $validatedData['etf_rate'] ?? 3;
+    
         $salaryAdvance = $validatedData['salary_advance'] ?? 0;
         $informedAbsentDays = $validatedData['informed_absent_days'] ?? 0;
         $uninformedAbsentDays = $validatedData['uninformed_absent_days'] ?? 0;
         $lateDays = $validatedData['late_days'] ?? 0;
         $halfDayLeaveHours = $validatedData['half_day_leave_hours'] ?? 0;
         $otherDeductions = $validatedData['other_deductions'] ?? 0;
-
+    
+        // New Fields
+        $informedAbsentDaysCount = $validatedData['informed_absent_days_count'] ?? 0;
+        $uninformedAbsentDaysCount = $validatedData['uninformed_absent_days_count'] ?? 0;
+        $lateAttendanceDaysCount = $validatedData['late_attendance_days_count'] ?? 0;
+        $halfDayLeavesCount = $validatedData['half_day_leaves_count'] ?? 0;
+    
         // Deductions calculation
         $epf = $basicSalary * ($epfRate / 100);
         $absentDeductions = ($informedAbsentDays + $uninformedAbsentDays);
         $lateDeductions = $lateDays;
         $halfDayDeductions = $halfDayLeaveHours;
         $totalDeductions = $epf + $absentDeductions + $lateDeductions + $halfDayDeductions + $salaryAdvance + $otherDeductions;
-
+    
         // Calculate net salary
         $netSalary = $totalEarnings - $totalDeductions;
-
-        // Payslip employer contribution
-        $emp_epf =  $basicSalary * ($emp_epfRate / 100);
-        $etf =  $basicSalary * ($etfRate / 100);
-
-        $grossEarnings = $totalEarnings;
+    
+        // Employer contributions
+        $emp_epf = $basicSalary * ($emp_epfRate / 100);
+        $etf = $basicSalary * ($etfRate / 100);
         $totalEmployerContribution = $emp_epf + $etf;
-
-        // Create a new payslip entry in the database
+    
+        // Create a new payslip entry
         $payslip = new Payslip();
         $payslip->emp_no = $validatedData['emp_no'];
         $payslip->emp_name = $validatedData['emp_name'];
@@ -183,12 +189,9 @@ class PayslipController extends Controller
         $payslip->total_pf = $pfTotal;
         $payslip->normal_ot_hours = $normalOtHours;
         $payslip->double_ot_hours = $doubleOtHours;
-
-        // Add to columns to db normal_ot_pay and double_ot_pay
         $payslip->normal_ot_pay = $normalOtPay;
         $payslip->double_ot_pay = $doubleOtPay;
         $payslip->gross_salary = $totalEarnings;
-
         $payslip->epf = $epf;
         $payslip->salary_advance = $salaryAdvance;
         $payslip->informed_absent_days = $informedAbsentDays;
@@ -198,19 +201,24 @@ class PayslipController extends Controller
         $payslip->other_deductions = $otherDeductions;
         $payslip->total_deductions = $totalDeductions;
         $payslip->net_salary = $netSalary;
-
         $payslip->employer_epf_contribution = $emp_epf;
         $payslip->etf = $etf;
-
-        $payslip->gross_earnings = $grossEarnings;
+        $payslip->gross_earnings = $totalEarnings;
         $payslip->total_employer_contribution = $totalEmployerContribution;
-
-        // Save the payslip to the database
+    
+        // New Fields
+        $payslip->informed_absent_days_count = $informedAbsentDaysCount;
+        $payslip->uninformed_absent_days_count = $uninformedAbsentDaysCount;
+        $payslip->late_attendance_days_count = $lateAttendanceDaysCount;
+        $payslip->half_day_leaves_count = $halfDayLeavesCount;
+    
+        // Save to database
         $payslip->save();
-
-        // Redirect to the payslip index with a success message
+    
+        // Redirect with success message
         return redirect()->route('payslip.index')->with('success', 'Payslip created successfully.');
     }
+    
 
     /**
      * Show the payslip for a specific employee.
