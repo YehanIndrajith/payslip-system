@@ -153,7 +153,7 @@
 </div>
 <div class="form-group">
     <label>Other Deductions</label>
-    <input type="number" class="form-control" name="other_deductions">
+    <input type="number" class="form-control" name="other_deductions" required>
 </div>
 
 
